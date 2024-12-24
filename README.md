@@ -5,6 +5,8 @@ Current Idea: Help students manage assignments and prevent procrastination. Uplo
 Assignments get broken down into chunks over multiple days to prevent leaving assignemnts to last minute. 
 
 Features:
-Able to upload syllabus and assignments are automatically taken. 
-able to specify when to start working on different assignments, as well as time commitments.
-
+Document upload and proper information parsing (can identify due dates, and assignments/exams/projects and could potentially maake judgement based on grade weight although thats probaably for task splitting logic) 
+frontend (upload buttons, sign in/log in page (can be removed if we dont get as far as user profiles) edit tasks , time requirements ...)
+database setup (mongoDB as a suggestion)
+google calendar sync (API Stuff)
+task splitting logic (hard code ?)
