@@ -3,11 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Winter Hackathon</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Upload Document</title>
+    <style>
+        .upload-container {
+            margin: 50px;
+            font-family: Arial, sans-serif;
+        }
+        .upload-label {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .upload-label:hover {
+            background-color: #0056b3;
+        }
+        #file-upload {
+            display: none; /* Hide the actual file input */
+        }
+        .file-info {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Please upload docs</h1>
-    <p>Made to solve procrasination</p>
+    <div class="upload-container">
+        <label for="file-upload" class="upload-label">Upload Document</label>
+        <input type="file" id="file-upload" />
+        <div id="file-info" class="file-info">No file selected</div>
+    </div>
+    <script>
+        const fileUpload = document.getElementById('file-upload');
+        const fileInfo = document.getElementById('file-info');
+
+        fileUpload.addEventListener('change', () => {
+            if (fileUpload.files.length > 0) {
+                const fileName = fileUpload.files[0].name;
+                fileInfo.textContent = `Selected file: ${fileName}`;
+            } else {
+                fileInfo.textContent = 'No file selected';
+            }
+        });
+    </script>
 </body>
 </html>
+
