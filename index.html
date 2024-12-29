@@ -32,8 +32,8 @@
 </head>
 <body>
     <div class="upload-container">
-        <label for="file-upload" class="upload-label">Upload Document</label>
-        <input type="file" id="file-upload" />
+        <label for="file-upload" class="upload-label">Upload PDF</label>
+        <input type="file" id="file-upload" accept=".pdf" />
         <div id="file-info" class="file-info">No file selected</div>
     </div>
     <script>
@@ -43,7 +43,15 @@
         fileUpload.addEventListener('change', () => {
             if (fileUpload.files.length > 0) {
                 const fileName = fileUpload.files[0].name;
-                fileInfo.textContent = `Selected file: ${fileName}`;
+                const fileType = fileUpload.files[0].type;
+
+                // Validate file type (ensure it's a PDF)
+                if (fileType === 'application/pdf') {
+                    fileInfo.textContent = `Selected file: ${fileName}`;
+                } else {
+                    fileInfo.textContent = 'Error: Please upload a valid PDF file!';
+                    fileUpload.value = ''; // Clear the input
+                }
             } else {
                 fileInfo.textContent = 'No file selected';
             }
