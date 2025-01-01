@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Syllabus</title>
+    <style>
+        .upload-container {
+            margin: 50px;
+            font-family: Arial, sans-serif;
+        }
+        .upload-label {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .upload-label:hover {
+            background-color: #0056b3;
+        }
+        #file-upload {
+            display: none; /* Hide the actual file input */
+        }
+        .file-info {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="upload-container">
+        <label for="file-upload" class="upload-label">Upload Syllabus</label>
+        <input type="file" id="file-upload" accept=".pdf" />
+        <div id="file-info" class="file-info">No file selected</div>
+    </div>
+    <script>
+        const fileUpload = document.getElementById('file-upload');
+        const fileInfo = document.getElementById('file-info');
+
+        fileUpload.addEventListener('change', () => {
+            if (fileUpload.files.length > 0) {
+                const fileName = fileUpload.files[0].name;
+                const fileType = fileUpload.files[0].type;
+
+                // Validate file type (ensure it's a PDF)
+                if (fileType === 'application/pdf') {
+                    fileInfo.textContent = `Selected file: ${fileName}`;
+                } else {
+                    fileInfo.textContent = 'Error: Please upload a valid PDF file!';
+                    fileUpload.value = ''; // Clear the input
+                }
+            } else {
+                fileInfo.textContent = 'No file selected';
+            }
+        });
+    </script>
+    <script src="js/upload.js"></script>
+    <div id="parsed-info"></div>
+</body>
+</html>
+
