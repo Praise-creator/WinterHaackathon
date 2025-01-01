@@ -3,62 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Syllabus</title>
-    <style>
-        .upload-container {
-            margin: 50px;
-            font-family: Arial, sans-serif;
-        }
-        .upload-label {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .upload-label:hover {
-            background-color: #0056b3;
-        }
-        #file-upload {
-            display: none; /* Hide the actual file input */
-        }
-        .file-info {
-            margin-top: 10px;
-            font-size: 14px;
-        }
-    </style>
+    <title>Syllabus Upload Tool</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <div class="upload-container">
-        <label for="file-upload" class="upload-label">Upload Syllabus</label>
-        <input type="file" id="file-upload" accept=".pdf" />
-        <div id="file-info" class="file-info">No file selected</div>
-    </div>
-    <script>
-        const fileUpload = document.getElementById('file-upload');
-        const fileInfo = document.getElementById('file-info');
+    <header class="header">
+        <h1>Syllabus Upload Tool</h1>
+        <p>Plan your assignments smarter, not harder!</p>
+    </header>
 
-        fileUpload.addEventListener('change', () => {
-            if (fileUpload.files.length > 0) {
-                const fileName = fileUpload.files[0].name;
-                const fileType = fileUpload.files[0].type;
+    <main class="main-container">
+        <section class="upload-section">
+            <h2>Upload Your Syllabus</h2>
+            <label for="file-upload" class="upload-label">
+                <span>Click to Upload a PDF</span>
+            </label>
+            <input type="file" id="file-upload" accept=".pdf" />
+            <div id="file-info" class="file-info">No file selected</div>
 
-                // Validate file type (ensure it's a PDF)
-                if (fileType === 'application/pdf') {
-                    fileInfo.textContent = `Selected file: ${fileName}`;
-                } else {
-                    fileInfo.textContent = 'Error: Please upload a valid PDF file!';
-                    fileUpload.value = ''; // Clear the input
-                }
-            } else {
-                fileInfo.textContent = 'No file selected';
-            }
-        });
-    </script>
+            <label for="hours-input" class="hours-label">
+                Estimated hours per assignment:
+            </label>
+            <input type="number" id="hours-input" placeholder="Enter hours" />
+            <button id="generate-btn" class="btn">Generate Schedule</button>
+        </section>
+
+        <section id="output-section" class="output-section">
+            <h2>Assignment Schedule</h2>
+            <ul id="schedule-list"></ul>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>Made with ❤️ by Samantha Fiallos</p>
+    </footer>
+
     <script src="js/upload.js"></script>
-    <div id="parsed-info"></div>
 </body>
 </html>
-
