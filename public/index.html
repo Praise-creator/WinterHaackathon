@@ -3,40 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Syllabus Upload Tool</title>
+    <title>Upload Syllabus and Generate Schedule</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <header class="header">
-        <h1>Syllabus Upload Tool</h1>
-        <p>Plan your assignments smarter, not harder!</p>
-    </header>
+    <div class="upload-container">
+        <h1>Upload Your Syllabus</h1>
 
-    <main class="main-container">
-        <section class="upload-section">
-            <h2>Upload Your Syllabus</h2>
-            <label for="file-upload" class="upload-label">
-                <span>Click to Upload a PDF</span>
-            </label>
-            <input type="file" id="file-upload" accept=".pdf" />
-            <div id="file-info" class="file-info">No file selected</div>
+        <!-- File upload input -->
+        <label for="file-upload" class="upload-label">Upload Syllabus (PDF only)</label>
+        <input type="file" id="file-upload" accept=".pdf" />
+        
+        <!-- Hours input -->
+        <label for="hours-input">Enter estimated hours to complete the assignment:</label>
+        <input type="number" id="hours-input" placeholder="e.g., 5 hours" />
 
-            <label for="hours-input" class="hours-label">
-                Estimated hours per assignment:
-            </label>
-            <input type="number" id="hours-input" placeholder="Enter hours" />
-            <button id="generate-btn" class="btn">Generate Schedule</button>
-        </section>
+        <!-- Button to generate the schedule -->
+        <button id="generate-btn" class="btn">Generate Schedule</button>
 
-        <section id="output-section" class="output-section">
-            <h2>Assignment Schedule</h2>
-            <ul id="schedule-list"></ul>
-        </section>
-    </main>
+        <!-- Information and results -->
+        <div id="file-info" class="file-info">No file selected</div>
 
-    <footer class="footer">
-        <p>Made with ❤️ by Samantha Fiallos</p>
-    </footer>
+        <!-- Schedule output -->
+        <ul id="schedule-list"></ul>
+    </div>
 
     <script src="js/upload.js"></script>
 </body>
