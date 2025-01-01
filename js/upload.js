@@ -3,26 +3,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const fileInput = document.getElementById('file-upload');
     const fileInfo = document.getElementById('file-info');
     const statusMessage = document.getElementById('status-message');
+    const parsedInfoContainer = document.getElementById('parsed-info');
 
-    // Validate file type and size before submitting
-    fileInput.addEventListener('change', () => {
-        const file = fileInput.files[0];
-        if (file) {
-            if (file.type !== 'application/pdf') {
-                statusMessage.textContent = 'Error: Only PDF files are allowed.';
-                statusMessage.style.color = 'red';
-                fileInput.value = ''; // Clear the input
-                fileInfo.textContent = 'No file selected';
-            } else {
-                fileInfo.textContent = `Selected file: ${file.name} (${(file.size / 1024).toFixed(2)} KB)`;
-                statusMessage.textContent = '';
-            }
-        }
-    });
-
-    // Handle form submission
     uploadForm.addEventListener('submit', async (event) => {
-        event.preventDefault(); // Prevent default form submission
+        event.preventDefault();
 
         const file = fileInput.files[0];
         if (!file) {
@@ -32,10 +16,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const formData = new FormData();
-        formData.append('document', file); // "document" matches the backend field name
+        formData.append('document', file);
 
         try {
-            statusMessage.textContent = 'Uploading...';
+            statusMessage.textContent = 'Uploading and processing...';
             statusMessage.style.color = 'blue';
 
             const response = await fetch('/upload', {
@@ -45,14 +29,88 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (response.ok) {
                 const result = await response.json();
-                statusMessage.textContent = result.message;
+                statusMessage.textContent = 'File processed successfully!';
                 statusMessage.style.color = 'green';
+
+                displayAssignments(result.data.assignments);
             } else {
-                throw new Error('Upload failed. Please try again.');
+                throw new Error('File upload or processing failed.');
             }
         } catch (error) {
             statusMessage.textContent = error.message;
             statusMessage.style.color = 'red';
         }
     });
+
+    function displayAssignments(assignments) {
+        parsedInfoContainer.innerHTML = `
+            <h3>Assignments</h3>
+            <ul>
+                ${assignments
+                    .map(
+                        (assignment, index) => `
+                    <li>
+                        <strong>Task:</strong> ${assignment.task} <br />
+                        <strong>Due Date:</strong> ${assignment.dueDate} <br />
+                        <label for="hours-${index}">Estimated Hours:</label>
+                        <input type="number" id="hours-${index}" min="1" step="1" />
+                    </li>
+                `
+                    )
+                    .join('')}
+            </ul>
+            <button id="generate-plan">Generate Study Plan</button>
+        `;
+
+        document
+            .getElementById('generate-plan')
+            .addEventListener('click', () => generatePlan(assignments));
+    }
+
+    async function generatePlan(assignments) {
+        const hoursPerAssignment = assignments.map((_, index) => {
+            const input = document.getElementById(`hours-${index}`);
+            return parseInt(input.value, 10) || 0;
+        });
+
+        try {
+            const response = await fetch('/schedule', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ assignments, hoursPerAssignment }),
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                displayStudyPlan(result.studyPlan);
+            } else {
+                throw new Error('Failed to generate study plan.');
+            }
+        } catch (error) {
+            statusMessage.textContent = error.message;
+            statusMessage.style.color = 'red';
+        }
+    }
+
+    function displayStudyPlan(studyPlan) {
+        parsedInfoContainer.innerHTML = `
+            <h3>Study Plan</h3>
+            <ul>
+                ${studyPlan
+                    .map(
+                        (plan) => `
+                    <li>
+                        <strong>Task:</strong> ${plan.task} <br />
+                        <strong>Due Date:</strong> ${plan.dueDate} <br />
+                        <strong>Schedule:</strong>
+                        <ul>
+                            ${plan.schedule.map((entry) => `<li>${entry}</li>`).join('')}
+                        </ul>
+                    </li>
+                `
+                    )
+                    .join('')}
+            </ul>
+        `;
+    }
 });
