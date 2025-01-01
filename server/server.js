@@ -1,97 +1,55 @@
 const express = require('express');
-const multer = require('multer');
-const pdfParse = require('pdf-parse');
 const path = require('path');
+const multer = require('multer');
 const fs = require('fs');
+const pdfParse = require('pdf-parse');
 
 const app = express();
-const port = 3000;
+const PORT = 3000;
 
-// Middleware for serving static files
-app.use(express.static(path.join(__dirname, '../')));
-app.use(express.json());
+// Serve static files from the public directory
+app.use(express.static(path.join(__dirname, '../public')));
 
-// Configure multer for file uploads
+// Multer setup for file uploads
 const upload = multer({
-    dest: 'uploads/',
+    dest: path.join(__dirname, './uploads'), // Save uploaded files in /server/uploads
     fileFilter: (req, file, cb) => {
         if (file.mimetype === 'application/pdf') {
             cb(null, true);
         } else {
-            cb(new Error('Only PDF files are allowed.'));
+            cb(new Error('Only PDF files are allowed'));
         }
-    }
+    },
 });
 
-// Endpoint to handle file uploads
-app.post('/upload', upload.single('document'), async (req, res) => {
+// Endpoint for file upload
+app.post('/upload', upload.single('file'), async (req, res) => {
     try {
-        const filePath = req.file.path;
+        if (!req.file) {
+            return res.status(400).send('No file uploaded.');
+        }
 
-        // Read the uploaded PDF file
-        const fileBuffer = fs.readFileSync(filePath);
+        // Read and parse the uploaded PDF
+        const filePath = path.join(__dirname, './uploads', req.file.filename);
+        const dataBuffer = fs.readFileSync(filePath);
+        const pdfData = await pdfParse(dataBuffer);
 
-        // Extract text from the PDF
-        const data = await pdfParse(fileBuffer);
+        // Example: Extract text and send a response
+        const extractedText = pdfData.text;
+        fs.unlinkSync(filePath); // Delete the file after parsing
 
-        // Parse the extracted text
-        const parsedInfo = parseDocument(data.text);
-
-        // Delete the uploaded file after parsing
-        fs.unlinkSync(filePath);
-
-        res.status(200).json({
-            message: 'File uploaded and parsed successfully.',
-            data: parsedInfo,
-        });
+        res.json({ message: 'File uploaded successfully', extractedText });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Error processing the file.' });
+        res.status(500).send(`Error: ${error.message}`);
     }
 });
 
-// Function to parse the document text
-function parseDocument(text) {
-    const assignments = [];
-    const assignmentRegex = /\b(assignment|homework|task)\b/i;
-    const dateRegex = /\b(?:\d{1,2}[/-]\d{1,2}[/-]\d{2,4}|\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\b \d{1,2},? \d{4})\b/i;
-
-    const lines = text.split('\n');
-
-    lines.forEach((line) => {
-        if (assignmentRegex.test(line)) {
-            const dueDate = line.match(dateRegex)?.[0];
-            assignments.push({ task: line, dueDate: dueDate || 'Unknown' });
-        }
-    });
-
-    return { assignments };
-}
-
-// Endpoint to calculate study plan
-app.post('/schedule', (req, res) => {
-    const { assignments, hoursPerAssignment } = req.body;
-
-    const studyPlan = assignments.map((assignment, index) => {
-        const totalHours = hoursPerAssignment[index];
-        const daysUntilDue = Math.max(
-            Math.ceil((new Date(assignment.dueDate) - new Date()) / (1000 * 60 * 60 * 24)),
-            1
-        );
-
-        const hoursPerDay = Math.ceil(totalHours / daysUntilDue);
-        const schedule = [];
-
-        for (let i = 0; i < daysUntilDue; i++) {
-            schedule.push(`Day ${i + 1}: Work on "${assignment.task}" for ${hoursPerDay} hours`);
-        }
-
-        return { task: assignment.task, dueDate: assignment.dueDate, schedule };
-    });
-
-    res.status(200).json({ studyPlan });
+// Fallback route for handling unmatched requests (optional)
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
-app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
+// Start the server
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
