@@ -1,10 +1,133 @@
-body {
-    font-family: Arial, sans-serif;
+/* General Reset */
+* {
     margin: 0;
     padding: 0;
-    background-color: #f0f0f0;
+    box-sizing: border-box;
 }
 
-h1 {
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
     color: #333;
+    line-height: 1.6;
+}
+
+/* Header */
+.header {
+    text-align: center;
+    padding: 20px;
+    background-color: #007BFF;
+    color: white;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+}
+
+.header p {
+    font-size: 1rem;
+    margin-top: 5px;
+}
+
+/* Main Content */
+.main-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.upload-section {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.upload-label {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+.upload-label:hover {
+    background-color: #0056b3;
+}
+
+#file-upload {
+    display: none;
+}
+
+.file-info {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.hours-label {
+    display: block;
+    margin-top: 15px;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+#hours-input {
+    width: 60%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.btn {
+    display: inline-block;
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background-color: #218838;
+}
+
+/* Output Section */
+.output-section {
+    margin-top: 20px;
+}
+
+.output-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+#schedule-list {
+    list-style: none;
+    padding: 0;
+}
+
+#schedule-list li {
+    background: #e9ecef;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 0.9rem;
+    background-color: #f1f1f1;
+    color: #555;
 }
