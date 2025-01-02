@@ -1,8 +1,10 @@
-const express = require('express'); // Import Express
-const multer = require('multer'); // For file uploads
-const mongoose = require('mongoose'); // For database
-const cors = require('cors'); // To allow frontend-backend communication
-const dotenv = require('dotenv'); // To manage environment variables
+const express = require('express'); 
+const multer = require('multer'); 
+const mongoose = require('mongoose'); 
+const cors = require('cors');
+const dotenv = require('dotenv'); 
+const Task = require('./models/task');
+
 
 dotenv.config(); // Load environment variables from .env file
 
@@ -37,3 +39,15 @@ app.post('/upload', upload.single('file'), (req, res) => {
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB'))
   .catch((err) => console.error('Error connecting to MongoDB:', err));
+
+//  Create a new task
+app.post('/tasks', async (req, res) => {
+  try {
+    const { name, deadline, duration } = req.body; // Destructure incoming data
+    const task = new Task({ name, deadline, duration }); // Create a new task
+    await task.save(); // Save to MongoDB
+    res.status(201).json({ message: 'Task saved!', task });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to save task.' });
+}
+  });
