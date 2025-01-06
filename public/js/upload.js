@@ -54,13 +54,13 @@ document.getElementById('generate-btn').addEventListener('click', function () {
 // Function to parse assignments from text
 function parseAssignments(text) {
     const assignments = [];
-    const assignmentRegex = /Assignment\s+\d+:[^]*?Due\s+(\w+ \d{1,2}, \d{4})/gi;
+    const assignmentRegex = /\b(Assignment|Homework|Lab|Project|Essay|Quiz|Paper)\s*\d*[:\-\.]?\s*[^]*?(?:Due[:\-\.]?\s*|\(Due:\s*|is due\s*|by\s+)(\w+\s\d{1,2},\s\d{4}|\d{1,2}\/\d{1,2}\/\d{4}|\d{1,2}\s\w+\s\d{4})/gi;
 
     let match;
     while ((match = assignmentRegex.exec(text)) !== null) {
         assignments.push({
             title: match[0].trim(),
-            dueDate: match[1].trim(),
+            dueDate: match[2].trim(),
         });
     }
 
