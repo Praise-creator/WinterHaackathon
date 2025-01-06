@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Syllabus and Generate Schedule</title>
+    <link rel="stylesheet" href="css/styles.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.13.216/pdf.min.js"></script>
+</head>
+<body>
+    <div class="upload-container">
+        <h1>Upload Your Syllabus</h1>
+
+        <!-- File upload input -->
+        <label for="file-upload" class="upload-label">Upload Syllabus (PDF only)</label>
+        <input type="file" id="file-upload" accept=".pdf" />
+
+        <!-- Button to generate the schedule -->
+        <button id="generate-btn" class="btn">Generate Schedule</button>
+
+        <!-- Information and results -->
+        <div id="file-info" class="file-info">No file selected</div>
+
+        <!-- Schedule output -->
+        <ul id="schedule-list"></ul>
+    </div>
+
+    <script src="js/upload.js"></script>
+</body>
+</html>
