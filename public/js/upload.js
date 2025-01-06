@@ -1,37 +1,68 @@
 document.getElementById('generate-btn').addEventListener('click', function () {
     const fileUpload = document.getElementById('file-upload');
-    const hoursInput = document.getElementById('hours-input').value;
     const fileInfo = document.getElementById('file-info');
     const scheduleList = document.getElementById('schedule-list');
+    const reader = new FileReader();
 
-    // Check if a file is selected
+    // Ensure a file is selected
     if (!fileUpload.files.length) {
         fileInfo.textContent = "Please select a syllabus PDF.";
         return;
     }
 
-    // Check if hours input is valid
-    if (!hoursInput || isNaN(hoursInput)) {
-        fileInfo.textContent = "Please enter a valid number of hours.";
-        return;
-    }
-
     const file = fileUpload.files[0];
-    const fileName = file.name;
-    fileInfo.textContent = `Processing ${fileName}...`;
+    fileInfo.textContent = `Processing ${file.name}...`;
 
-    // You can add logic to process the PDF here and extract due dates, assignments, etc.
-    // For now, we'll simulate adding assignments to the schedule.
+    // Read the uploaded PDF
+    reader.onload = async function (e) {
+        const pdfData = new Uint8Array(e.target.result);
 
-    scheduleList.innerHTML = ''; // Clear previous schedule
+        try {
+            const pdf = await pdfjsLib.getDocument({ data: pdfData }).promise;
+            let extractedText = "";
 
-    // Simulate dividing assignments into chunks based on user input
-    const totalAssignments = 5; // Example: 5 assignments in the syllabus
-    const hoursPerDay = parseInt(hoursInput, 10);
+            // Extract text from all pages
+            for (let i = 0; i < pdf.numPages; i++) {
+                const page = await pdf.getPage(i + 1);
+                const textContent = await page.getTextContent();
+                extractedText += textContent.items.map((item) => item.str).join(" ") + "\n";
+            }
 
-    for (let i = 1; i <= totalAssignments; i++) {
-        const li = document.createElement('li');
-        li.textContent = `Assignment ${i}: Complete in ${hoursPerDay} hours on day ${i}`;
-        scheduleList.appendChild(li);
-    }
+            // Parse the text for assignments and due dates
+            const assignments = parseAssignments(extractedText);
+
+            // Display the parsed assignments
+            scheduleList.innerHTML = "";
+            if (assignments.length === 0) {
+                scheduleList.innerHTML = "<li>No assignments found.</li>";
+            } else {
+                assignments.forEach((assignment) => {
+                    const li = document.createElement("li");
+                    li.textContent = `Assignment: ${assignment.title} - Due: ${assignment.dueDate}`;
+                    scheduleList.appendChild(li);
+                });
+            }
+        } catch (error) {
+            console.error(error);
+            fileInfo.textContent = "Error processing the file.";
+        }
+    };
+
+    reader.readAsArrayBuffer(file);
 });
+
+// Function to parse assignments from text
+function parseAssignments(text) {
+    const assignments = [];
+    const assignmentRegex = /Assignment\s+\d+:[^]*?Due\s+(\w+ \d{1,2}, \d{4})/gi;
+
+    let match;
+    while ((match = assignmentRegex.exec(text)) !== null) {
+        assignments.push({
+            title: match[0].trim(),
+            dueDate: match[1].trim(),
+        });
+    }
+
+    return assignments;
+}
