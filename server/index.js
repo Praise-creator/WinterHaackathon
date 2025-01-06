@@ -9,7 +9,7 @@ const Task = require('./models/task');
 dotenv.config(); // Load environment variables from .env file
 
 const app = express(); // Initialize the app
-const PORT = process.env.PORT || 5000; // Use PORT from .env or default to 5000
+const PORT = process.env.PORT || 5001; // Use PORT from .env or default to 5000
 
 // Middleware
 app.use(cors()); // Allow requests from other origins
