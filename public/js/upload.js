@@ -36,6 +36,7 @@ document.getElementById('generate-btn').addEventListener('click', function () {
             if (assignments.length === 0) {
                 scheduleList.innerHTML = "<li>No assignments found.</li>";
             } else {
+                // Output assignments found
                 assignments.forEach((assignment) => {
                     const li = document.createElement("li");
                     li.textContent = `Assignment: ${assignment.title} - Due: ${assignment.dueDate}`;
@@ -54,6 +55,7 @@ document.getElementById('generate-btn').addEventListener('click', function () {
 // Function to parse assignments from text
 function parseAssignments(text) {
     const assignments = [];
+    // Make the search broad for different formats of syllabi
     const assignmentRegex = /\b(Assignment|Homework|Lab|Project|Essay|Quiz|Paper)\s*\d*[:\-\.]?\s*[^]*?(?:Due[:\-\.]?\s*|\(Due:\s*|is due\s*|by\s+)(\w+\s\d{1,2},\s\d{4}|\d{1,2}\/\d{1,2}\/\d{4}|\d{1,2}\s\w+\s\d{4})/gi;
 
     let match;
