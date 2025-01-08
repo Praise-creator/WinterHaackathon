@@ -1,5 +1,5 @@
 import React  from "react";
-import './SelectFile.css';
+import './UploadPage.css';
 
 function SelectFile(){
     return(

@@ -1,5 +1,6 @@
 import React from 'react';
-import './UploadedFile.css';
+import './UploadPage.css';
+
 function UploadedFile(){ 
     return (
         <div className='fileLayout'>
