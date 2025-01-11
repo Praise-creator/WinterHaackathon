@@ -19,8 +19,6 @@ function DragAndDrop({ handleFileUpload }) {
     return (
         <div className = "dragDrop"> 
             <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
-            <img src="fileIcon.svg" />
-            <h3>Drag & Drop Files Here</h3>
         </div>
 
     );

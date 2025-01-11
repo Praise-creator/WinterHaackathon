@@ -16,12 +16,12 @@ function Container(){
     };
 
     return (
-    <div className='outterContainer'>
+    <div className='outter-container'>
         <div className="container">
         <h1>Upload File</h1>
         <UploadedFile fileName={fileName} />
         <DragAndDrop handleFileUpload={handleFileUpload} />
-        <Button />
+        <Button fileName={fileName}  handleFileUpload={handleFileUpload} />
         </div> 
     </div>
      

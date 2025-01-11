@@ -19,6 +19,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border: gray 0.5px solid;
 }
 /* Uploaded File Component */ 
 .fileInput{ 
@@ -61,7 +62,7 @@ h3{
 /* DragAndDrop component */
 
 .dragDrop{ 
-    border: 0.1rem dashed black ;
+  
     background-color: white;
     width: 600px;
     height: 180px;
@@ -75,6 +76,10 @@ h3{
 
 
 /* Button component */
+.button:hover{
+    background-color: #bbf7b3;
+
+}
 
 .button{ 
     background-color: #88ca42;
@@ -84,6 +89,9 @@ h3{
     border-radius: 10px;
     font-weight: bold;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     
 }
