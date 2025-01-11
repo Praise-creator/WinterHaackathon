@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Load the token stored in 'auth.js'
-const TOKEN_PATH = path.join(__dirname, '/server/token.json');
+const TOKEN_PATH = path.join(__dirname, '../token.json');
 
 // Load the token from file
 const token = JSON.parse(fs.readFileSync(TOKEN_PATH, 'utf8'));
