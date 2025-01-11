@@ -9,7 +9,7 @@
     align-items: center; /* Vertically center the items */
     width: 75%;
     background-color: white;
-    height: 60px;
+    height: 85px;
     border-radius: 10px;
     margin: 5px;
 }
@@ -40,6 +40,9 @@
 
 .assignment input[type="text"] {
     font-family: 'Arial', sans-serif;
+    word-wrap: break-word;
+    white-space: normal;
+    width: 40%;
 }
 
 

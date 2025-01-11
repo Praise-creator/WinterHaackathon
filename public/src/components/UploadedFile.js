@@ -1,12 +1,12 @@
 import React from 'react';
 import './UploadPage.css';
 
-function UploadedFile(){ 
+function UploadedFile({fileName}){ 
     return (
         <div className='fileLayout'>
             <div className='white-background'> 
                 <img src="./pdf.png"/> 
-                <h3>CSSyllabus.doc</h3>
+                <h3>{fileName}</h3>
                 <img src="./tick-mark.png" />
                 </div>
         </div>

@@ -1,36 +1,19 @@
 import React from "react";
 import './Form.css';
-
-const Assignment = ({ task, onInputChange, index }) => {
-  return (
-    <div className="assignment">
-      <input
-        type="text"
-        value={task.name}
-        onChange={(e) => onInputChange(e, index, "name")}
-      />
-      <input
-        type="date"
-        value={task.date}
-        onChange={(e) => onInputChange(e, index, "date")}
-      />
-      <input
-        type="number"
-        value={task.duration}
-        onChange={(e) => onInputChange(e, index, "duration")}
-      />
-      <input
-        type="date"
-        placeholder="Start Date"
-        onChange={(e) => onInputChange(e, index, "startDate")}
-      />
-      <input
-        type="date"
-        placeholder="End Date"
-        onChange={(e) => onInputChange(e, index, "endDate")}
-      />
-    </div>
-  );
+ 
+const Assignment = () => {
+    const today = new Date();
+    const formattedDate = today.toISOString().split('T')[0];
+    console.log(today);
+    return(
+       
+        <div className="assignment"> 
+            <input type='text' defaultValue={"Molecular Visualization Project"} />
+            <input type='date' defaultValue={formattedDate} />
+            <input type='number' defaultValue={3} />
+             </div>
+      
+    );
 };
 
 export default Assignment;
