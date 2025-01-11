@@ -4,6 +4,9 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv'); 
 const Task = require('./models/task');
+const fileUploadRouter = require('./routes/fileUpload');
+const { getExistingCalendarEvents, createEvent } = require('./calendar/calendar'); // Import calendar functions
+const { scheduleTask } = require('./calendar/taskScheduler'); // Import scheduling functions
 
 
 dotenv.config(); // Load environment variables from .env file
@@ -22,32 +25,34 @@ app.listen(PORT, () => {
 
 
 // File upload route
-const upload = multer({ dest: 'uploads/' }); // Save files to the 'uploads' folder
-
-app.post('/upload', upload.single('file'), (req, res) => {
-  try {
-    const file = req.file; // Access uploaded file
-    console.log(file); // Log file details
-    res.status(200).json({ message: 'File uploaded successfully!', file });
-  } catch (error) {
-    res.status(500).json({ error: 'File upload failed.' });
-  }
-});
+app.use('/uploads', fileUploadRouter);
 
 
 // Database connection
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('Connected to MongoDB'))
   .catch((err) => console.error('Error connecting to MongoDB:', err));
 
-//  Create a new task
+// Create a new task and schedule it
 app.post('/tasks', async (req, res) => {
   try {
-    const { name, deadline, duration } = req.body; // Destructure incoming data
-    const task = new Task({ name, deadline, duration }); // Create a new task
+    const { name, startDate, endDate, duration } = req.body; // Destructure incoming data
+    const task = new Task({ name, startDate, endDate, duration }); // Create a new task
+
     await task.save(); // Save to MongoDB
-    res.status(201).json({ message: 'Task saved!', task });
+
+    // Schedule the task (divide into 2-hour blocks and schedule per week)
+    const scheduledEvents = scheduleTask(task);
+
+    // Fetch existing events to avoid conflicts
+    const existingEvents = await getExistingCalendarEvents();
+
+    // Logic to check for overlapping events (not implemented fully here)
+    // For now, we can assume no conflict and move forward
+    await createEvent(scheduledEvents);
+
+    res.status(201).json({ message: 'Task saved and events scheduled!', task, events: scheduledEvents });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to save task.' });
-}
-  });
+    res.status(500).json({ error: 'Failed to save task or schedule events.' });
+  }
+});

@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const TaskSchema = new mongoose.Schema({
   name: { type: String, required: true },
+  start: { type: Date, required: true },
   deadline: { type: Date, required: true },
   duration: { type: Number, required: true }, // Hours per week
 });
