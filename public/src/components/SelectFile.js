@@ -22,7 +22,7 @@ function SelectFile() {
     formData.append("file", file); // Append the file to the form data
 
     try {
-      const response = await axios.post("http://localhost:5000/uploads", formData, {
+      const response = await axios.post("./http://localhost:5000/uploads", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -32,6 +32,9 @@ function SelectFile() {
       setMessage("File upload failed. Please try again.");
       console.error(error);
     }
+
+
+    
   };
 
   return (

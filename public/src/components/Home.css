@@ -1,0 +1,80 @@
+
+body{
+    min-height: 100vh;
+    background: linear-gradient(rgba(232,247,229) 0%, rgba(183,187,190) 50%, rgba(119,161,211) 100%);
+}
+.homeUI{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/*Header Component*/ 
+.header{
+    display: flex;
+
+}
+
+
+.headerBold{
+    font-weight: bold;
+}
+
+.headerLight{
+    font-weight: lighter;
+}
+
+
+/* Main Component */ 
+.mainTitle{
+    font-weight: bold;
+}
+
+.mainBody{
+    font-weight: lighter;
+    text-align: center;
+}
+
+.main{ 
+    
+    width: 800px;
+    height: 400px;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 55px;
+    margin-bottom: 20px;
+}
+
+
+/* Upload Button Component */ 
+.uploadButton{ 
+    width: 865px;
+    height: 70px;
+    border-radius: 10px;
+    background-color: #0c63c9;
+    font-size: 15px;
+    text-align: center;
+    font-weight: lighter;
+    margin-top: 15px;
+    color: white;
+
+}
+.uploadButton:hover{
+    background-color: #77A1D3;
+    color: white;
+    border: white 0.5px solid;
+
+}
+
+/* Footer */ 
+h6{
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+}

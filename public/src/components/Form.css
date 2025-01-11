@@ -1,0 +1,52 @@
+.title{
+    text-align: center;
+}
+
+
+.assignment {
+    display: flex;
+    justify-content: space-evenly; /* Spacing between the elements */
+    align-items: center; /* Vertically center the items */
+    width: 75%;
+    background-color: white;
+    height: 60px;
+    border-radius: 10px;
+    margin: 5px;
+}
+
+.assignment input {
+
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font-size: 1rem;
+    padding: 0.5rem;
+    width: 20; /* Make the inputs take up a reasonable width */
+    box-sizing: border-box;
+    transition: all 0.3s ease-in-out;
+}
+
+.assignment input:focus {
+    background-color: #f0f0f0;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.assignment input[type="date"],
+.assignment input[type="number"] {
+    background-color: #fff;
+    border-radius: 5px;
+
+}
+
+.assignment input[type="text"] {
+    font-family: 'Arial', sans-serif;
+}
+
+
+/*Form Component */
+.assignmentBox{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
